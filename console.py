@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 """ Console Module """
+
 import cmd
 import sys
 import re
 import os
+from datetime import datetime
+import uuid
 from models.base_model import BaseModel
 from models.__init__ import storage, storageType
 from models.user import User
@@ -117,7 +120,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        print("storageType:", storageType)
+        print("storageType in docreate:", storageType)
         ignored = ('id', 'created_at', 'updated_at', '__class__')
         className = ''
         name_regex = r'(?P<name>(?:[a-zA-Z]|_)(?:[a-zA-Z]|\d|_)*)'
@@ -158,6 +161,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+            print("storageType in docreate making:", storageType)
             if not hasattr(obj_kwargs, 'id'):
                 obj_kwargs['id'] = str(uuid.uuid4())
             if not hasattr(obj_kwargs, 'created_at'):
@@ -165,6 +169,7 @@ class HBNBCommand(cmd.Cmd):
             if not hasattr(obj_kwargs, 'updated_at'):
                 obj_kwargs['updated_at'] = str(datetime.now())
             new_obj = HBNBCommand.classes[className](**obj_kwargs)
+            print(new_obj)
             new_obj.save()
             print(new_obj.id)
         else:

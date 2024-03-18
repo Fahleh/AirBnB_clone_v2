@@ -10,10 +10,14 @@ from sqlalchemy.orm import relationship
 class State(BaseModel):
     """ State class """
     __tablename__ = 'states'
+    print(f'In states page. storagetype: {storageType}')
     if storageType == 'db':
+        print('In state if')
         name = Column(String(128), nullable=False)
+        print('After name')
         cities = relationship('City', backref='state',
                               cascade='all, delete, delete-orphan')
+        print('after cities')
     else:
         name = ''
 
@@ -26,6 +30,7 @@ class State(BaseModel):
             from models import storage
             res = []
             cities = storage.all(City)
+            print('After cities in state')
             for city in cities.values():
                 if city.state_id == self.id:
                     res.append(city)
