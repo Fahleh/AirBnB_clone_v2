@@ -159,7 +159,7 @@ class HBNBCommand(cmd.Cmd):
         elif className not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        if storageType == 'db':
             if not hasattr(obj_kwargs, 'id'):
                 obj_kwargs['id'] = str(uuid.uuid4())[:60]
             if not hasattr(obj_kwargs, 'created_at'):
