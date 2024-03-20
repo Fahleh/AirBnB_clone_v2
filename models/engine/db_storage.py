@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 """This module contains the database storage engine"""
 
-import logging
+from os import environ
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.exc import SQLAlchemyError
-from os import getenv
 from models.base_model import Base
 from models.user import User
 from models.city import City
@@ -15,13 +14,13 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-if getenv('HBNB_TYPE_STORAGE') == 'db':
-    from models.place import placeAmenities
+if environ.get('HBNB_TYPE_STORAGE') == 'db':
+    from models.place import place_amenity
 
-HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
-HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
-HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
-HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
+HBNB_MYSQL_USER = environ.get('HBNB_MYSQL_USER')
+HBNB_MYSQL_PWD = environ.get('HBNB_MYSQL_PWD')
+HBNB_MYSQL_HOST = environ.get('HBNB_MYSQL_HOST')
+HBNB_MYSQL_DB = environ.get('HBNB_MYSQL_DB')
 
 classes = {"User": User, "State": State, "City": City,
            "Amenity": Amenity, "Place": Place, "Review": Review}
@@ -39,7 +38,7 @@ class DBStorage:
             HBNB_MYSQL_PWD,
             HBNB_MYSQL_HOST,
             HBNB_MYSQL_DB), pool_pre_ping=True)
-        env = getenv("HBNB_ENV")
+        env = environ.get("HBNB_ENV")
 
         if (env == "test"):
             Base.metadata.drop_all(self.__engine)
@@ -67,13 +66,7 @@ class DBStorage:
             Adds an object to the current db session
         """
         if obj is not None:
-            try:
                 self.__session.add(obj)
-                self.__session.flush()
-                self.__session.refresh(obj)
-            except Exception as execpt:
-                self.__session.rollback()
-                raise execpt
 
     def save(self):
         """Commit all changes made in the current db session"""

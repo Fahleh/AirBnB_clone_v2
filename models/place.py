@@ -10,7 +10,7 @@ from models.amenity import Amenity
 
 
 if storageType == 'db':
-    placeAmenities = Table('placeAmenities', Base.metadata,
+    place_amenity = Table('place_amenity', Base.metadata,
                           Column('place_id', String(60),
                                  ForeignKey('places.id'),
                                  primary_key=True,
@@ -38,8 +38,8 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         reviews = relationship('Review', backref='place',
                                cascade='all, delete, delete-orphan')
-        amenities = relationship('Amenity', secondary=placeAmenities,
-                                 viewonly=False, backref='placeAmenities')
+        amenities = relationship('Amenity', secondary=place_amenity,
+                                 viewonly=False, backref='place_amenity')
     else:
         city_id = ""
         user_id = ""
