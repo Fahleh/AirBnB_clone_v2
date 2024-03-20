@@ -3,10 +3,8 @@
 from os import environ
 
 storageType = environ.get('HBNB_TYPE_STORAGE')
-print("Storage type set to:", storageType)
 
 if storageType == 'db':
-    print("Storage type in IF:", storageType)
     from models.engine.db_storage import DBStorage
     storage = DBStorage()
     storage.reload()

@@ -89,14 +89,10 @@ class DBStorage:
 
     def reload(self):
         """Reloads the session"""
-        print('IN RELOAD FUNCTION')
         Base.metadata.create_all(self.__engine)
-        print('AFTER BASE.METADATA')
         session_factory = sessionmaker(bind=self.__engine,
                                            expire_on_commit=False)
-        print('AFER SESSION_FACTORY')
         self.__session = scoped_session(session_factory)()
-        print('AFTER SESSION IS SET')
 
     def close(self):
         """closes the working SQLAlchemy session"""

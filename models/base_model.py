@@ -58,6 +58,7 @@ class BaseModel:
 
     def to_dict(self):
         """Convert instance into dict format"""
+        print('In the to_dict duncttion')
         dictionary = self.__dict__.copy()
         dictionary['__class__'] = self.__class__.__name__
         for key in dictionary:

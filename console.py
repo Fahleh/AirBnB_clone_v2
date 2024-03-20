@@ -120,7 +120,6 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        print("storageType in docreate:", storageType)
         ignored = ('id', 'created_at', 'updated_at', '__class__')
         className = ''
         name_regex = r'(?P<name>(?:[a-zA-Z]|_)(?:[a-zA-Z]|\d|_)*)'
@@ -161,15 +160,13 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-            print("storageType in docreate making:", storageType)
             if not hasattr(obj_kwargs, 'id'):
-                obj_kwargs['id'] = str(uuid.uuid4())
+                obj_kwargs['id'] = str(uuid.uuid4())[:60]
             if not hasattr(obj_kwargs, 'created_at'):
                 obj_kwargs['created_at'] = str(datetime.now())
             if not hasattr(obj_kwargs, 'updated_at'):
                 obj_kwargs['updated_at'] = str(datetime.now())
             new_obj = HBNBCommand.classes[className](**obj_kwargs)
-            print(new_obj)
             new_obj.save()
             print(new_obj.id)
         else:
@@ -260,7 +257,7 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
