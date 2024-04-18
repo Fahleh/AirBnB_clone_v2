@@ -66,3 +66,6 @@ class FileStorage:
         if key in self.__objects.keys():
             del self.__objects[key]
 
+    def close(self):
+        """Displays the HBNB data"""
+        self.reload()
