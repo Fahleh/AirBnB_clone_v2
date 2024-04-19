@@ -4,7 +4,14 @@ from models import storage
 from flask import Flask
 from flask import render_template
 
+
 app = Flask(__name__)
+
+
+@app.teardown_appcontext
+def cleanup(foo):
+    """Closes session"""
+    storage.close()
 
 
 @app.route("/states", strict_slashes=False)
@@ -24,12 +31,6 @@ def states_id(id):
         if state.id == id:
             return render_template("9-states.html", state=state)
     return render_template("9-states.html")
-
-
-@app.teardown_appcontext
-def teardown(exc):
-    """Removes the current SQLAlchemy session."""
-    storage.close()
 
 
 if __name__ == "__main__":

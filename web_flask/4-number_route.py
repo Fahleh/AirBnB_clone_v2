@@ -6,32 +6,32 @@ app = Flask(__name__)
 
 
 @app.route("/", strict_slashes=False)
-def hello_world():
+def greeting():
     """Returns hello hbhb"""
     return "Hello HBNB!"
 
 
 @app.route("/hbnb", strict_slashes=False)
-def HBNB():
+def hbnb():
     """Returns HBNB"""
     return "HBNB"
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def text(text):
+def echo(text):
     """Returns the text given"""
     return "C {}".format(text.replace("_", " "))
 
 
 @app.route('/python/', defaults={'text': 'is_cool'})
 @app.route('/python/<text>', strict_slashes=False)
-def display(text):
+def echo_py(text):
     """Displays “Python ”, followed by the value of the text"""
     return "Python {}".format(text.replace("_", " "))
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
-def num_display(n):
+def display_int(n):
     """Displays “n is a number” only"""
     return "{} is a number".format(n)
 

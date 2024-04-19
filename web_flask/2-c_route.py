@@ -6,19 +6,19 @@ app = Flask(__name__)
 
 
 @app.route("/", strict_slashes=False)
-def hello_world():
-    """Returns hello hbhb"""
+def greeting():
+    """Returns hbhb greeting"""
     return "Hello HBNB!"
 
 
 @app.route("/hbnb", strict_slashes=False)
-def HBNB():
+def hbnb():
     """Returns HBNB"""
     return "HBNB"
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def text(text):
+def echo(text):
     """Returns the text given"""
     return "C {}".format(text.replace("_", " "))
 
